@@ -11,7 +11,7 @@ mov es, ax
 mov ss, ax
 mov sp, 0x7c00
 
-; 0xb800  文本显示器的内存区域
+; 0xb8000  文本显示器的内存区域
 mov ax, 0xb800
 mov ds, ax
 mov byte [0], 'H'
