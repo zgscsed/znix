@@ -16,18 +16,16 @@ mov si, booting
 call print
 
 mov edi, 0x1000;  读取的目标内存
-mov ecx, 0; 起始扇区
-mov bl, 1; 扇区数量
+mov ecx, 2; 起始扇区
+mov bl, 4; 扇区数量
 
 
 call read_disk
-xchg bx, bx
 
-mov edi, 0x1000;  读取的目标内存
-mov ecx, 2; 起始扇区
-mov bl, 1; 扇区数量
-call write_disk
-xchg bx, bx
+cmp word [0x1000], 0x55aa; 检查错误
+jnz error
+
+jmp 0:0x1002;   跳转到loader执行
 ; 阻塞
 jmp $
 
@@ -186,6 +184,13 @@ print:
 
 booting:
     db "Booting znix...", 10, 13, 0;    \n\r
+
+error:
+    mov si, .msg
+    call print
+    hlt; 让cpu 停止
+    jmp $
+    .msg db "Booting Error!!!", 10, 13, 0
 
 ; 填充 0
 times 510 - ($ - $$) db 0
