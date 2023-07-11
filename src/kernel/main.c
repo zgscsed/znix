@@ -11,4 +11,6 @@ void kernel_init()
     {
         video[i * 2] = message[i];
     }
+
+    int a = 10;
 }
