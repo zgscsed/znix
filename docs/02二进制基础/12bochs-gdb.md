@@ -55,15 +55,16 @@ source ~/.bashrc
 Curses library not found: tried curses, ncurses, termlib and pdcurses
 
 安装
-```s
+```shell
+
 sudo apt-get install libncurses5-dev
 ```
 
 
 这个参数--with-sdl， 添加后编译失败，没有解决
 make过程中报错：fatal error: SDL.h: 没有那个文件或目录, 
-```s
-安装后没有解决
+```shell
+#安装后没有解决
 sudo apt-get install libsdl2-dev
 ```
 
@@ -72,7 +73,7 @@ sudo apt-get install libsdl2-dev
 
 vscode配置
 
-```
+```shell
         {
             "name": "znix - Build and debug kernel",
             "type": "cppdbg",
