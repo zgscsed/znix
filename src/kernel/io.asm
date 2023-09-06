@@ -18,7 +18,7 @@ inb:
     leave ; 恢复栈帧
     ret
 
-global outb ; 将inb 导出
+global outb ; 导出
 outb:
     push ebp;
     mov ebp, esp ; 保存帧
@@ -34,7 +34,7 @@ outb:
     leave ; 恢复栈帧
     ret
 
-global inw ; 将inb 导出
+global inw ; 将inw 导出
 inw:
     push ebp;
     mov ebp, esp ; 保存帧
@@ -50,7 +50,7 @@ inw:
     leave ; 恢复栈帧
     ret
 
-global outw ; 将inb 导出
+global outw ; 将 导入
 outw:
     push ebp;
     mov ebp, esp ; 保存帧
