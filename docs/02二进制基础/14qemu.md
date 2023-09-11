@@ -19,6 +19,8 @@ sudo apt-get install libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev indent
 sudo apt-get install ninja-build
 ```
 
+## qemu退出
+qemu 界面退出快捷键 ctrl + alt + g
 
 ### qemu 执行
 

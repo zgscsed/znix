@@ -11,7 +11,11 @@ typedef struct console_t {
     u32 screen;        // 记录当前显示器开始的内存位置
     u32 scr_size;      // 屏幕内存大小
 
-    u32 pos;           // 记录当前光标的内存位置
+    union 
+    {
+        u32 pos;           // 记录当前光标的内存位置
+        char *ptr;
+    };
 
     u32 x;             // 光标坐标 x
     u32 y;             // 光标坐标 y
@@ -26,6 +30,7 @@ typedef struct console_t {
 
 void console_init();
 void console_clear(console_t *con);
+void console_writes(char* buf, u32 count);
 void console_write(console_t *con, char* buf, u32 count);
 
 #endif // CONSOLE_H_
