@@ -50,7 +50,19 @@ static void calculate_cursor_xy(console_t *con);
 
 // 清楚屏幕
 static void erase_screen(console_t *con, u16 *start, u32 count);
+// 向上滚屏
+static void scroll_up(console_t *con);
 
+// \b 退格
+static void bs(console_t *con);
+// \t tab宽度相当于8个空格的位， 不支持设置空格数量
+static void ht(console_t *con);
+// \n 换行,  如果屏幕没有满，那么不向上滚屏
+static void lf(console_t *con);
+// \r 将光标移动这行的起始位置
+static void cr(console_t *con);
+// 打印一个字符
+static void write_charator(console_t *con, char ch);
 
 // 获得当前显示器的内存开始位置
 static void get_screen(console_t* con)
@@ -118,7 +130,36 @@ static void erase_screen(console_t *con, u16 *start, u32 count)
     }
 }
 
+// 退格 \b
+static void bs(console_t *con)
+{
+    // 如果当前光标在一行的起始位置，不能退格
+    if (con->x == 0)
+    {
+        return;
+    }
 
+    con->x--;
+    con->pos -= 2;
+    *(u16*)con->pos = con->erase;      // 不清除当前字符，如果后面还有字符，覆盖
+}
+
+// \t tab宽度相当于8个空格的位， 不支持设置空格数量
+static void ht(console_t *con)
+{
+    // 对齐8位
+    int offset = 8 - (con->x & 7);       // 8位空格
+    con->x += offset;
+    con->pos += (offset << 1);
+
+    // 增加空格后，可能需要换行
+    if (con->x >= con->width)
+    {
+        con->x -= con->width;
+        con->pos -= con->row_size;
+        lf(con);
+    }
+}
 // 向上滚屏
 static void scroll_up(console_t *con)
 {
@@ -159,6 +200,13 @@ static void cr(console_t *con)
     con->pos -= (con->x << 1);       // x*2 表示这个行现有的内存大小
     con->x = 0;
 }
+
+// del 删除当前字符
+static void del(console_t *con)
+{
+    *(u16*)con->pos = con->erase;
+}
+
 // 打印一个字符
 static void write_charator(console_t *con, char ch)
 {
@@ -228,12 +276,28 @@ void console_write(console_t *con, char* buf, u32 count)
         {
             case NUL:
                 break;
+            case BEL:
+                // 蜂鸣器
+                break;
+            case BS:
+                bs(con);
+                break;
+            case HT:
+                ht(con);
+                break;
             case LF:
                 lf(con);
                 cr(con);
                 break;
+            case VT:
+                break;
+            case FF:
+                break;
             case CR:
                 cr(con);
+                break;
+            case DEL:
+                del(con);
                 break;
             default:
                 write_charator(con, ch);
