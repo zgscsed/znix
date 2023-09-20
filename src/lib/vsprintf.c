@@ -2,6 +2,7 @@
 #include <znix/string.h>
 #include <znix/types.h>
 #include <znix/stdarg.h>
+#include <znix/assert.h>
 
 // flags
 #define ZEROPAD 0x01 // 填充零
@@ -530,6 +531,8 @@ int vsprintf(char *buf, const char *fmt, va_list args)
     *str = '\0';
     // 返回转换后的字符串长度
     result_len = str - buf;
+
+    assert(result_len < 1024);     // 不能超过1024
     return result_len;
 }
 // 格式化字符串
