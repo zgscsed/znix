@@ -142,7 +142,7 @@ static char *number(char *str, u32 *num, int base, int size, int precision, int 
         } while (ival);
 
     }
-    else if (*num == '0')
+    else if (*num == 0)
     {
         temp[i++] = '0';
     }

@@ -109,7 +109,7 @@ static void set_cursor(console_t *con)
     outb(CRT_DATA_REG, (con->pos - con->mem_base) >> 1 & 0xff);     // 设置低地址
 
     // 计算xy坐标
-    calculate_cursor_xy(con);
+    // calculate_cursor_xy(con);
 }
 
 // 计算光标xy坐标
