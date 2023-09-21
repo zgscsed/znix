@@ -5,10 +5,12 @@
 #include <znix/stdarg.h>
 #include <znix/printk.h>
 #include <znix/debug.h>
+#include <znix/global.h>
 
 void kernel_init()
 {
     console_init();
+    gdt_init();
     BMB;
     DEBUGK("SDFSF");
     return;
