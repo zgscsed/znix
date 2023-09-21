@@ -52,7 +52,7 @@ static void task_create(task_t *task, target_t target)
     frame->esi = 0x22222222;
     frame->edi = 0x33333333;
     frame->ebp = 0x44444444;
-    frame->eip = (void*)target;                    // 指向切换到一个任务的地址
+    frame->eip = (void*)target;                    // 指向任务执行函数
 
     task->stack = (u32*)stack;
 }
