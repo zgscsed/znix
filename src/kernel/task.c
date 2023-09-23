@@ -46,7 +46,7 @@ static void task_create(task_t *task, target_t target)
 {
     u32 stack = (u32)task + PAGE_SIZE;           // 栈底
 
-    stack -= sizeof(task_frame_t);                 // 一个task_frame_t 结构体的内存大小用来保存frame
+    stack -= sizeof(task_frame_t);                 // 栈底腾出一个task_frame_t 结构体的内存大小用来保存frame
     task_frame_t *frame = (task_frame_t*)stack;    // 保存frame
     frame->ebx = 0x11111111;
     frame->esi = 0x22222222;
