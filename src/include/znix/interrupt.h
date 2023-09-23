@@ -18,6 +18,9 @@ typedef struct gate_t
 } _packed gate_t;
 
 
+// 中断处理函数
+typedef void *handler_t;
+
 void interrupt_init();
 
 #endif // !ZNIX_INTERRUPT_H_
