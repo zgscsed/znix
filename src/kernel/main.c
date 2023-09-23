@@ -6,6 +6,7 @@
 #include <znix/printk.h>
 #include <znix/global.h>
 #include <znix/task.h>
+#include <znix/interrupt.h>
 
 void kernel_init()
 {
@@ -17,6 +18,8 @@ void kernel_init()
     // {
     //     printk("test1:%d\n", i);
     // }
-    task_init();
+    // task_init();
+
+    interrupt_init();
     return;
 }
