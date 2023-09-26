@@ -13,6 +13,8 @@
 
 #define _packed __attribute__((packed)) // 用于定义特殊的结构体, 字节对齐
 
+// 用于省略函数的栈帧
+#define _ofp_ __attribute__((optimize("omit-frame-pointer")))
 typedef unsigned int size_t;
 
 typedef char int8;

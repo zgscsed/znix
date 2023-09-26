@@ -17,11 +17,32 @@ interrupt_handler_%1:
 
 interrupt_entry:
 
-    mov eax, [esp] ; 将当前栈顶的值弹出赋给eax寄存器
+    ; 保存上文寄存器信息
+    push ds
+    push es
+    push fs
+    push gs
+    pusha
+
+    ; 找到前面 push %1 压入的 中断向量
+    mov eax, [esp + 12 * 4]
+
+    push eax
 
     ; 调用中断处理函数，handler_table 中存储了中断处理函数的指针
     call [handler_table + eax * 4]
-    ; 对应 push %1，调用结束恢复栈
+    ; 对应 push eax，调用结束恢复栈
+    add esp, 4
+
+    ; 恢复下文寄存器信息
+    popa
+    pop gs
+    pop fs
+    pop es
+    pop ds
+
+    ; 对应push %1
+    ; 对应error code 或者push magic
     add esp, 8
     iret
 

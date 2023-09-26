@@ -1,5 +1,6 @@
 #include <znix/task.h>
 #include <znix/printk.h>
+#include <znix/debug.h>
 
 #define PAGE_SIZE 0X1000         // 一页大小 4k
 
@@ -24,21 +25,22 @@ void schedule()
     task_switch(next);
 }
 
-u32 thread_a()
+u32 _ofp_ thread_a()
 {
+    BMB;
+    asm volatile("sti\n");
     while (true)
     {
-        printk("AAAAAAAAAAAAAAAAAAAA");
-        schedule();
+        printk("A");
     }
 }
 
-u32 thread_b()
+u32 _ofp_ thread_b()
 {
+    asm volatile("sti\n");
     while (true)
     {
-        printk("BBBBBBBBBBBBBBBBBBBB");
-        schedule();
+        printk("B");
     }
 }
 
