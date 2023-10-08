@@ -109,7 +109,10 @@ protect_mode:
     mov ecx, 10; 起始扇区
     mov bl, 200; 扇区数量
 
-    call read_disk
+    call read_disk ; 读取内核
+
+    mov eax, 0x20220205; 内核魔数
+    mov ebx, ards_count; ards 数量指针
 
     jmp dword code_selector:0x10000
 
