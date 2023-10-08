@@ -13,7 +13,7 @@ void kernel_init()
     interrupt_init();
     // task_init();
 
-    // clock_init();
+    clock_init();
     time_init();
     rtc_init();
 
