@@ -1,6 +1,7 @@
 #include <znix/time.h>
 #include <znix/debug.h>
 #include <znix/stdlib.h>
+#include <znix/rtc.h>
 
 #define LOGK(fmt, args...) DEBUGK(fmt, ##args)
 
@@ -109,12 +110,6 @@ int get_yday(tm *time)
     }
 
     return res;
-}
-
-u8 cmos_read(u8 addr)
-{
-    outb(CMOS_ADDR, CMOS_NMI | addr);
-    return inb(CMOS_DATA);
 }
 
 // bcd码的时间
