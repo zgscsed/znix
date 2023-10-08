@@ -3,6 +3,7 @@
 #include <znix/debug.h>
 #include <znix/printk.h>
 #include <znix/stdlib.h>
+#include <znix/assert.h>
 
 #define LOGK(fmt, args...) DEBUGK(fmt, ##args)
 
@@ -62,12 +63,43 @@ void send_eoi(int vector)
     }
 }
 
-extern void schedule();
+// 设置中断处理函数
+void set_interrupt_handler(u32 irq, handler_t handler)
+{
+    assert(irq >= 0 && irq < 16);
+    handler_table[IRQ_MASTER_NR + irq] = handler;
+}
+
+// 设置打开中断, 初始化PIC的时候需要严格按照顺序，后面通过端口修改时，只能打开或者是关闭某个引脚的中断？
+void set_interrupt_mask(u32 irq, bool enable)
+{
+    assert(irq >= 0 && irq < 16);
+    u16 port;
+    if (irq < 8)
+    {
+        port = PIC_M_DATA;
+    }
+    else
+    {
+        port = PIC_S_DATA;
+        irq -= 8;
+    }
+
+    if (enable)
+    {
+        outb(port, inb(port) & ~(1 << irq));        // 对应irq引脚置0
+    }
+    else
+    {
+        outb(port, inb(port) | (1 << irq));
+    }
+}
+u32 counter = 0;
 
 void default_handler(int vector)
 {
     send_eoi(vector);
-    schedule();
+    DEBUGK("[%x] default interrupt called %d...\n", vector, counter);
 }
 
 // 异常中断函数
@@ -112,7 +144,7 @@ void pic_init()
     outb(PIC_S_DATA, 2);          // ICW3: 设置从片连接到主片的 IR2 引脚
     outb(PIC_S_DATA, 0b00000001); // ICW4: 8086模式, 正常EOI
 
-    outb(PIC_M_DATA, 0b11111110); // 关闭所有中断
+    outb(PIC_M_DATA, 0b11111111); // 关闭所有中断, 1 表示关闭， 0 表示打开
     outb(PIC_S_DATA, 0b11111111); // 关闭所有中断
 }
 
