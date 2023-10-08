@@ -251,6 +251,7 @@ void console_clear(console_t *con)
     erase_screen(con, con->mem_base, con->mem_size);
 }
 
+extern void start_beep();
 /*
 #define ENQ 0x05
 #define ESC 0x1B // ESC
@@ -275,6 +276,7 @@ void console_write(console_t *con, char* buf, u32 count)
                 break;
             case BEL:
                 // 蜂鸣器
+                start_beep();
                 break;
             case BS:
                 bs(con);
