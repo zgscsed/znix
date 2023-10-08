@@ -47,12 +47,12 @@ void clock_handler(int vector)
     send_eoi(vector);
 
     // 测试蜂鸣器
-    if (jiffies % 200 == 0)
-    {
-        start_beep();
-    }
+    // if (jiffies % 200 == 0)
+    // {
+    //     start_beep();
+    // }
     jiffies++;
-    DEBUGK("clock jiffies %d ...\n", jiffies);
+    // DEBUGK("clock jiffies %d ...\n", jiffies);
 
     stop_beep();
 }
