@@ -21,7 +21,14 @@ typedef struct page_entry_t
     u32 index : 20;  // 页索引
 } _packed page_entry_t;
 
+// 得到 cr3 寄存器
 u32 get_cr3();
+// 设置 cr3 寄存器，参数是页目录的地址
 void set_cr3(u32 pde);
+
+// 分配count 个连续内核页
+u32 alloc_kpage(u32 count);
+// 释放count 个连续内核页
+void free_kpage(u32 addr, u32 count);
 
 #endif // ZNIX_MEMORY_H_

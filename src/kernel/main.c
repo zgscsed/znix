@@ -8,7 +8,7 @@ extern void time_init();
 extern void rtc_init();
 extern void hang();
 
-// extern void memory_test();
+extern void memory_test();
 void kernel_init()
 {
     memory_map_init();
@@ -20,8 +20,8 @@ void kernel_init()
     // time_init();
     // rtc_init();
 
-    // memory_test();
-    bitmap_tests();
+    memory_test();
+    // bitmap_tests();
 
     hang();
 

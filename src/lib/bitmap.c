@@ -34,7 +34,7 @@ bool bitmap_test(bitmap_t *map, u32 index)
     assert(bytes < map->length);
 
     // 返回index位置的值是否为1
-    return (map->bits[bytes] & (1 < bits));
+    return (map->bits[bytes] & (1 << bits));
 }
 
 // 设置位图某位的值
@@ -57,12 +57,12 @@ void bitmap_set(bitmap_t *map, u32 index, bool value)
     if (value)
     {
         // 设置为1
-        map->bits[bytes] |= (1 < bits);
+        map->bits[bytes] |= (1 << bits);
     }
     else
     {
         // 设置为0;
-        map->bits[bytes] &= ~(1 < bits);
+        map->bits[bytes] &= ~(1 << bits);
     }
 }
 
@@ -117,26 +117,4 @@ int bitmap_scan(bitmap_t *map, u32 count)
 
     // 返回索引
     return start + map->offset;
-}
-
-#include <znix/debug.h>
-#define LOGK(fmt, args...) DEBUGK(fmt, ##args)
-
-#define LEN 2
-u8 buf[LEN];
-bitmap_t map;
-
-void bitmap_tests()
-{
-    bitmap_init(&map, buf, LEN, 0);
-    for (size_t i = 0; i < 20; ++i)
-    {
-        idx_t idx = bitmap_scan(&map, 1);
-        if (idx == EOF)
-        {
-            LOGK("TEST FINISH\n");
-            break;
-        }
-        LOGK("%d\n", idx);
-    }
 }
