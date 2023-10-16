@@ -2,6 +2,7 @@
 #include <znix/interrupt.h>
 #include <znix/assert.h>
 #include <znix/debug.h>
+#include <znix/task.h>
 
 #define PIT_CHAN0_REG 0X40
 #define PIT_CHAN2_REG 0X42
@@ -41,14 +42,25 @@ void stop_beep()
     }
 }
 
+// 定时器中断，触发进程调度
 void clock_handler(int vector)
 {
     assert(vector == 0x20);
     send_eoi(vector);
+    stop_beep();
 
     jiffies++;
 
-    stop_beep();
+    task_t *task = running_task();
+    assert(task->magic == ZNIX_MAGIC);
+
+    task->jiffies = jiffies;
+    task->ticks--;
+    if (!task->ticks)
+    {
+        task->ticks = task->priority;
+        schedule();
+    }
 }
 
 void pit_init()

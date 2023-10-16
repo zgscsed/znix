@@ -22,9 +22,6 @@
 // 检测地址是否页起始位置
 #define ASSERT_PAGE(addr) assert((addr & 0xfff) == 0)
 
-// 内核页目录索引
-#define KERNEL_PAGE_DIR 0x1000
-
 // 内核页表索引
 static u32 KERNEL_PAGE_TABLE[] = {
     0X2000,
