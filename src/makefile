@@ -44,6 +44,7 @@ $(BUILD)/kernel.bin: \
 	$(BUILD)/kernel/time.o \
 	$(BUILD)/kernel/rtc.o \
 	$(BUILD)/kernel/interrupt.o \
+	$(BUILD)/kernel/gate.o \
 	$(BUILD)/kernel/memory.o \
 	$(BUILD)/lib/string.o \
 	$(BUILD)/lib/vsprintf.o \

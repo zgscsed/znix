@@ -8,6 +8,7 @@ extern void clock_init();
 extern void time_init();
 extern void rtc_init();
 extern void task_init();
+extern void syscall_init();
 extern void hang();
 
 void intr_test()
@@ -27,13 +28,13 @@ void kernel_init()
 
     task_init();
 
-
+    syscall_init();
     // time_init();
     // rtc_init();
 
     // memory_test();
     // bitmap_tests();
 
-    set_interrupt_state(true);
+    // set_interrupt_state(true);
     return;
 }
