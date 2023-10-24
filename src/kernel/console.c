@@ -1,6 +1,7 @@
 #include <znix/console.h>
 #include <znix/io.h>
 #include <znix/string.h>
+#include <znix/interrupt.h>
 
 
 #define CRT_ADDR_REG 0x3D4 // CRT(6845)索引寄存器
@@ -266,6 +267,7 @@ extern void start_beep();
 */
 void console_write(console_t *con, char* buf, u32 count)
 {
+    bool intr = interrupt_disable();    // 禁止中断
     char ch;
     while (count--)
     {
@@ -301,8 +303,11 @@ void console_write(console_t *con, char* buf, u32 count)
             default:
                 write_charator(con, ch);
         }
-        set_cursor(con);  // 处理一个字符更新光标
     }
+    set_cursor(con);  // 处理一个字符更新光标
+
+    // 恢复中断
+    set_interrupt_state(intr);
 }
 
 // 写控制台
