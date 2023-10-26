@@ -35,6 +35,6 @@ void kernel_init()
     // memory_test();
     // bitmap_tests();
 
-    // set_interrupt_state(true);
+    set_interrupt_state(true);
     return;
 }
